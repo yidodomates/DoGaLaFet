@@ -15,12 +15,11 @@ jobs:
           java-version: '8'
           distribution: 'temurin'
 
-      - name: Download and Build with Gradle 4.10.3 Manually
-        run: |
-          wget https://services.gradle.org/distributions/gradle-4.10.3-bin.zip
-          unzip gradle-4.10.3-bin.zip
-          export PATH=$PWD/gradle-4.10.3/bin:$PATH
-          gradle build --no-daemon
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Build with Gradle
+        run: gradle build --no-daemon
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
