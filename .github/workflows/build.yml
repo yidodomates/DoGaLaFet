@@ -15,10 +15,10 @@ jobs:
           java-version: '8'
           distribution: 'temurin'
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
+      - name: Setup Gradle 7.6.3
+        uses: gradle/gradle-build-action@v2
         with:
-          gradle-version: '8.5'
+          gradle-version: '7.6.3'
 
       - name: Build Mod Jar
         run: gradle build
