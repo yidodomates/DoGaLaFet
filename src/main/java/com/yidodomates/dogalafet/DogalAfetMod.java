@@ -8,7 +8,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.subscriber.SubscribeEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.util.Random;
@@ -24,7 +24,6 @@ public class DogalAfetMod {
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
-        // Event dinleyicisini kaydediyoruz
         MinecraftForge.EVENT_BUS.register(this);
     }
 
@@ -33,24 +32,21 @@ public class DogalAfetMod {
         if (event.phase == TickEvent.Phase.END) {
             timer++;
             
-            // Yaklaşık her 10 saniyede bir (200 tick) felaket tetiklenir
+            // Her 200 tick (yaklaşık 10 saniye) bir yıldırım düşer
             if (timer >= 200) {
                 timer = 0;
 
-                // Sunucudaki oyuncuları bulup etraflarına yıldırım düşürür
                 net.minecraft.server.MinecraftServer server = net.minecraftforge.fml.common.FMLCommonHandler.instance().getMinecraftServerInstance();
                 if (server != null && !server.getPlayerList().getPlayers().isEmpty()) {
                     for (EntityPlayer player : server.getPlayerList().getPlayers()) {
                         World world = player.getEntityWorld();
                         
-                        // Oyuncunun 15 blok yakınında rastgele bir nokta
                         double offsetX = (random.nextDouble() - 0.5) * 30;
                         double offsetZ = (random.nextDouble() - 0.5) * 30;
                         
                         BlockPos targetPos = player.getPosition().add(offsetX, 0, offsetZ);
                         BlockPos surfacePos = world.getTopSolidOrLiquidBlock(targetPos);
 
-                        // Yıldırımı çaktır
                         EntityLightningBolt lightning = new EntityLightningBolt(world, surfacePos.getX(), surfacePos.getY(), surfacePos.getZ(), false);
                         world.spawnEntity(lightning);
                     }
